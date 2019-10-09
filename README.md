@@ -44,6 +44,8 @@
 
 6. 更改 jWrite 中的文件目录为合适的位置以便输出最终结果
 
+库中的 timetable_cqupt.py 是重庆邮电大学同学的一个版本，timetable_cqu.py 是重庆大学同学的一个版本，供你参考两种不同的 classes 和 Class 的变量内容。
+
 ## 关于 GPS 位置
 
 这一功能**仅在 Apple 设备上进行测试**，在 iCalendar 标准中，似乎定义 GEO 并输入坐标即可确定位置，但在 iOS 和 macOS 上验证不通过。
