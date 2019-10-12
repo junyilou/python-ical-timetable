@@ -55,16 +55,16 @@ for Class in classes:
 	Title = Name + " - " + Location
 	if "D1" in Location: customGEO = """LOCATION:重庆大学虎溪校区第一教学楼\\n大学城南路55号重庆大学虎溪校区
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=337.55;X-TITLE=重庆大学虎溪校区
- 第一教学楼\\""" + "\\n大学城南路55号重庆大学虎溪校区:geo:29.595578,106.301135"
+ 第一教学楼\\\\n大学城南路55号重庆大学虎溪校区:geo:29.595578,106.301135"""
 	if "DZ" in Location: customGEO = """LOCATION:重庆大学虎溪校区综合楼\\n大学城南路55号重庆大学虎溪校区
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=340.61;X-TITLE=重庆大学虎溪校区
- 综合楼\\""" + "\\n大学城南路55号重庆大学虎溪校区:geo:29.596055,106.299510"
+ 综合楼\\\\n大学城南路55号重庆大学虎溪校区:geo:29.596055,106.299510"""
 	if "DYC" in Location: customGEO = """LOCATION:重庆大学虎溪校区艺术楼\\n大学城南路55号重庆大学虎溪校区
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=434.41;X-TITLE=重庆大学虎溪校区
- 艺术楼\\""" + "\\n大学城南路55号重庆大学虎溪校区:geo:29.593464,106.304183"
+ 艺术楼\\\\n大学城南路55号重庆大学虎溪校区:geo:29.593464,106.304183"""
 	if "D东大门" in Location: customGEO = """LOCATION:重庆大学虎溪校区(东门)\\n虎溪镇
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=686.05;X-TITLE=重庆大学虎溪校区
- (东门)\\""" + "\\n虎溪镇:geo:29.594176,106.307050"
+ (东门)\\\\n虎溪镇:geo:29.594176,106.307050"""
 	Description = classID + " 教学班" + Classmates + " 任课教师" + Teacher + "。"
 	classStartTime = []; classEndTime = []
 	for timeWeek in classWeek:

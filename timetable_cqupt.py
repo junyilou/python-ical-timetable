@@ -65,19 +65,19 @@ for Class in classes:
 	Title = Name + " - " + Location
 	if "综合实验楼" in Location: customGEO = """LOCATION:重庆邮电大学综合实验大楼\\n南山路新力村
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
- 综合实验大楼\\""" + "\\n南山路新力村:geo:29.524289,106.605595"""
+ 综合实验大楼\\\\n南山路新力村:geo:29.524289,106.605595"""
 	if Location[0] == "2": customGEO = """LOCATION:重庆邮电大学二教学楼\\n崇文路2号重庆邮电大学内
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
- 二教学楼\\""" + "\\n崇文路2号重庆邮电大学内:geo:29.532703,106.606747"
+ 二教学楼\\\\n崇文路2号重庆邮电大学内:geo:29.532703,106.606747"""
 	if Location[0] == "3": customGEO = """LOCATION:重庆邮电大学第三教学楼\\n崇文路2号
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
- 第三教学楼\\""" + "\\n崇文路2号:geo:29.535119,106.609114"
+ 第三教学楼\\\\n崇文路2号:geo:29.535119,106.609114"""
 	if Location[0] == "5": customGEO = """LOCATION:重庆邮电大学-国际学院\\n崇文路2号重庆邮电大学内
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
- -国际学院\\""" + "\\n崇文路2号重庆邮电大学内:geo:29.536131,106.610090"
+ -国际学院\\\\n崇文路2号重庆邮电大学内:geo:29.536131,106.610090"""
 	if "运动场1" in Location: customGEO = """LOCATION:风华运动场\\n南山街道重庆邮电大学5栋
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=
- 风华运动场\\""" + "\\n南山街道重庆邮电大学5栋:geo:29.532757,106.607510"
+ 风华运动场\\\\n南山街道重庆邮电大学5栋:geo:29.532757,106.607510"""
 	Description = classID + " 任课教师: " + Teacher + "，该课程是" + Kind + "课，学分 " + Point + " 分。"
 	classStartTime = []; classEndTime = []
 	for timeWeek in classWeek:
