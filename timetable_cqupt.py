@@ -2,8 +2,8 @@ import datetime
 from datetime import datetime, timedelta
 
 maxWeek = 20; maxWeek += 1
-classTime = [None, (8, 0), (8, 50), (10, 15), (11, 5), (14, 00), (14, 50), 
-	(16, 15), (17, 5), (19, 0), (19, 50), (20, 50), (21, 40)]
+classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
+	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
 weeks = [None]
 starterDay = datetime(2019, 9, 2)
 for i in range(1, maxWeek):
@@ -83,7 +83,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 	for timeWeek in classWeek:
 		startTime = classTime[classOrder[0]]; endTime = classTime[classOrder[-1]]
 		classStartTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = startTime[0] * 60 + startTime[1]))
-		classEndTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = endTime[0] * 60 + endTime[1] + 50))
+		classEndTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = endTime[0] * 60 + endTime[1] + 45))
 	for i in range(len(classStartTime)):
 		vEvent = "\nBEGIN:VEVENT"
 		vEvent += "\nDTEND;TZID=Asia/Shanghai:" + classEndTime[i].strftime('%Y%m%dT%H%M%S')

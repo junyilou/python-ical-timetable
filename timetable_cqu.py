@@ -2,8 +2,8 @@ import datetime
 from datetime import datetime, timedelta
 
 maxWeek = 20; maxWeek += 1
-classTime = [None, (8, 30), (9, 20), (10, 30), (11, 20), (14, 00), (14, 50), 
-	(16, 0), (16, 50), (19, 0), (19, 50), (20, 50)]
+classTime = [None, (8, 30), (9, 25), (10, 30), (11, 25), (14, 00), (14, 55), 
+	(16, 0), (16, 55), (19, 0), (19, 55), (20, 50)]
 weeks = [None]
 starterDay = datetime(2019, 9, 2)
 for i in range(1, maxWeek):
@@ -31,7 +31,8 @@ classes = [
 	["计算机导论", "[18497016]刘凯", "002", "D1348", "CST11104", rgWeek(10, 13), 4, rgWeek(3, 4)],
 	["高等数学1(电子信息类)", "[10490018]罗广萍", "006", "D1234", "MATH10012", rgWeek(6, 18), 5, rgWeek(3, 4)],
 	["体育自选项目(太极养生)", "[25700108]涂毅", "008", "D东大门", "PESS22037", rgWeek(6, 18), 5, rgWeek(7, 8)],
-	["新生研讨课", "[09000021]熊庆宇", "002", "D1251", "SE10001", rgWeek(6, 9), 6, rgWeek(1, 4)]
+	["新生研讨课", "[09000021]熊庆宇", "002", "D1251", "SE10001", rgWeek(6, 9), 6, rgWeek(1, 4)],
+	["程序设计基础(1)", "陈波", "000509-001E", "DS1421", "FCP0000-002顺序程序设计", [9], 7, rgWeek(5, 8)]
 ]
 
 iCalHeader = """BEGIN:VCALENDAR
@@ -70,7 +71,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=686.
 	for timeWeek in classWeek:
 		startTime = classTime[classOrder[0]]; endTime = classTime[classOrder[-1]]
 		classStartTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = startTime[0] * 60 + startTime[1]))
-		classEndTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = endTime[0] * 60 + endTime[1] + 50))
+		classEndTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = endTime[0] * 60 + endTime[1] + 45))
 	for i in range(len(classStartTime)):
 		vEvent = "\nBEGIN:VEVENT"
 		vEvent += "\nDTEND;TZID=Asia/Shanghai:" + classEndTime[i].strftime('%Y%m%dT%H%M%S')
