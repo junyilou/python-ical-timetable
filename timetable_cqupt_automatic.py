@@ -133,7 +133,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 
 allvEvent += "\nEND:VCALENDAR"
 
-report(allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ')) #请直接注释
+report(iCalHeader + allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ')) #请直接注释
 
 jWrite = open("/root/www/cqupt.ics", "w")
 jWrite.write(iCalHeader + allvEvent); jWrite.close()
