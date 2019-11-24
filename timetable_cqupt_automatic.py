@@ -1,6 +1,8 @@
 import datetime, requests, json
 from datetime import datetime, timedelta
 
+studentNum = 2017212136 #直接修改为你的学号
+
 maxWeek = 20; maxWeek += 1
 classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
 	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
@@ -35,7 +37,27 @@ def kaoshi(studentNum):
 			"", [int(_Test["week"])], int(_Test["weekday"]) - 1, _Test["seat"]])
 	return tests
 
-studentNum = 2017212136
+def report(comp, dts):
+	'''
+	这一函数需要我写的另外的代码做支撑
+	用途主要是在有课程变化时给手机发通知
+	你可以在代码末尾直接去掉执行 report() 函数
+	'''
+	import IFTTT, difflib
+	org = open("/root/www/cqupt.ics")
+	orr = org.read(); org.close()
+	orc = orr.count("BEGIN:VEVENT"); crc = comp.count("BEGIN:VEVENT")
+	if orc != crc:
+		fileDiff = '<!DOCTYPE html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">'
+		fileDiff += "<title>classTable changeLog " + dts + "</title></head><body><pre><code>"
+		for line in difflib.unified_diff(orr.split("\n"), comp.split("\n")): 
+			fileDiff += line + "\n"
+		dWrite = open("/root/www/classtable.html", "w")
+		dWrite.write(fileDiff + "</code></pre></body></html>"); dWrite.close()
+		IFTTT.pushbots("检测到课表或考试安排有变化，原先共有 " + str(orc) + " 个日程，现在有 "+ str(crc) + " 个，文件差异已经保存到 classtable.html",
+			"https://upload.wikimedia.org/wikipedia/zh/4/43/Cquptlogo.JPG",
+			"http://myv.ps/classtable.html", "linkraw", IFTTT.getkey()[0], 0)
+
 classes = kebiao(studentNum) + kaoshi(studentNum)
 
 iCalHeader = """BEGIN:VCALENDAR
@@ -50,8 +72,6 @@ TZID:Asia/Shanghai
 END:VTIMEZONE"""
 
 createNow = datetime.now() - timedelta(hours = 8)
-dtStamp = createNow.strftime('%Y%m%dT%H%M%SZ')
-
 allvEvent = ""
 
 for __Class in classes:
@@ -105,7 +125,6 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 		vEvent = "\nBEGIN:VEVENT"
 		vEvent += "\nDTEND;TZID=Asia/Shanghai:" + classEndTime.strftime('%Y%m%dT%H%M%S')
 		vEvent += "\nSUMMARY:" + Title
-		vEvent += "\nDTSTAMP:" + dtStamp
 		vEvent += "\nDTSTART;TZID=Asia/Shanghai:" + classStartTime.strftime('%Y%m%dT%H%M%S')
 		vEvent += "\nDESCRIPTION:" + Description
 		vEvent += "\n" + customGEO
@@ -113,6 +132,8 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 		allvEvent += vEvent
 
 allvEvent += "\nEND:VCALENDAR"
+
+report(allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ')) #请直接注释
 
 jWrite = open("/root/www/cqupt.ics", "w")
 jWrite.write(iCalHeader + allvEvent); jWrite.close()
