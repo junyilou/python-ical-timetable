@@ -86,7 +86,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKITHANDLE=一大串文字;X-APP
 ## 联系作者
 * 直接提交 Issue
 
-* Telegram [@marvin_lou](http://t.me/marvin_lou "@marvin_lou")
+* Telegram [@shunitsu](http://t.me/shunitsu "@shunitsu")
 
 * 微博 [@赛艇的同学](http://weibo.com/n/赛艇的同学 "@赛艇的同学")
 
