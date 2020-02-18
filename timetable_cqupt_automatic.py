@@ -17,7 +17,7 @@ for i in range(1, maxWeek):
 
 def kebiao(studentNum):
 	data = {"stuNum": studentNum}; kecheng = []
-	headers = {"User-Agent": "zhang shang zhong you/4.0.6 (iPhone; iOS 13.2.2; Scale/2.00)"}
+	headers = {"User-Agent": "zhang shang zhong you/4.0.9 (iPhone; iOS 13.3.1; Scale/2.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/kebiao', data = data, headers = headers, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
@@ -28,7 +28,7 @@ def kebiao(studentNum):
 
 def kaoshi(studentNum):
 	data = {"stuNum": studentNum}; tests = []
-	headers = {"User-Agent": "zhang shang zhong you/4.0.6 (iPhone; iOS 13.2.2; Scale/2.00)"}
+	headers = {"User-Agent": "zhang shang zhong you/4.0.9 (iPhone; iOS 13.3.1; Scale/2.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/examSchedule', data = data, headers = headers, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
@@ -64,7 +64,7 @@ iCalHeader = """BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
 X-WR-CALNAME:课表
-PRODID:-//Apple Inc.//Mac OS X 10.15.1//EN
+PRODID:-//Apple Inc.//Mac OS X 10.15.3//EN
 X-WR-TIMEZONE:Asia/Shanghai
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
