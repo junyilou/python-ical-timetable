@@ -7,7 +7,7 @@ maxWeek = 20; maxWeek += 1
 classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
 	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
 weeks = [None]
-starterDay = datetime(2019, 9, 2)
+starterDay = datetime(2020, 2, 17)
 for i in range(1, maxWeek):
 	singleWeek = []
 	for d in range(0, 7):

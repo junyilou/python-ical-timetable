@@ -4,15 +4,15 @@
 
 ## 简介
 
-大一新生第一次接触大学生课表，在有 Mac、iPhone 和 Apple Watch 设备的情况下希望能将自己的课表导入内置日历应用，以更方便的随时查看课表和规划行程。由于没有找到比较合适的 app 故自己写了这一代码。
+大一新生第一次接触大学生课表，在有 Mac、iPhone 和 Apple Watch 设备的情况下希望能将自己的课表导入内置日历应用，以更方便的随时查看课表和规划行程。由于没有找到比较合适的 app 故自己写了这一代码。推荐使用 Python 3 运行。
 
-大多数代码兼容 Python 2，使用 Python 2 需要添加 UTF-8 注释，并修改部分代码。推荐使用 Python 3 运行。
-
-#### [2019年11月更新] 重庆邮电大学限定功能
+#### [限定] 重庆邮电大学学生
 
 ![重庆邮电大学限定](cqupt_exclusive.png)
 
-使用 **timetable_cqupt_automatic.py**，就可以**自动获取并生成来自教务在线的课表和考试安排**，配合 crontab 任务，即可在你的服务器上创建 ics 订阅，随时获得更新的课表和考试信息。
+如果你是重庆邮电大学学生，直接使用 **timetable_cqupt_automatic.py**，就可以**自动获取并生成来自教务在线的课表和考试安排**。
+
+如果将代码配合 crontab 任务，即可在你的服务器上创建 ics 订阅，随时获得最新的包含调停课（部分）的课表和考试安排。
 
 直接修改代码中的学号，并修改代码最后的 ics 文件保存位置即可，课表和考试安排数据由重庆邮电大学红岩网校所开发掌上重邮 app (cyxbsmobile) 提供。
 
@@ -31,16 +31,20 @@
 
 3. 修改 **starterDay** 为本学期第一周星期一的日期。
 
-4. 修改 **classes** 中的课程信息，由于不同学校课表可能含有不同信息，请参考源代码中的课表填写，并直接在后续定义中作出相应修改：<br><br>
-在 `for Class in classes:` 后，定义了不同的变量，均可进行自定义。最终，`Title`变量为日历项的标题，`Description`变量为日历项的备注，均可根据自己喜好修改。您只需要一点点 Python 基础即可看懂源代码并作出修改。<br><br>
-**如何设置周数？**
-单独周：请改为数组形式，例如 [2]；
-范围周：请使用`rgWeek`，例如 rgWeek(3, 7) 代表第三周到第七周；
-奇数周：请使用`oeWeek`，例如 oeWeek(2, 9, 1) 代表第二周到第九周的单数周，将 1 改为 0 即为偶数周。<br><br>
-**如何设置课程节数？**
-一节课：请改为数组形式，例如 [2]；
-范围课，请使用`rgWeek`，例如 rgWeek(3, 7) 代表第三节一直上到第七节；<br><br>
-周数，节数如有多项组成，请使用加法。例如，第2周，5-11单数周，13-17 周，则为：
+4. 修改 **classes** 中的课程信息，由于不同学校课表可能含有不同信息，请参考源代码中的课表填写，并直接在后续定义中作出相应修改：
+
+  在 `for Class in classes:` 后，定义了不同的变量，均可进行自定义。最终，`Title`变量为日历项的标题，`Description`变量为日历项的备注，均可根据自己喜好修改。您只需要一点点 Python 基础即可看懂源代码并作出修改。
+
+  **如何设置周数？**
+  单独周：请改为数组形式，例如 [2]；
+  范围周：请使用`rgWeek`，例如 rgWeek(3, 7) 代表第三周到第七周；
+  奇数周：请使用`oeWeek`，例如 oeWeek(2, 9, 1) 代表第二周到第九周的单数周，将 1 改为 0 即为偶数周。
+
+  **如何设置课程节数？**
+  一节课：请改为数组形式，例如 [2]；
+  范围课，请使用`rgWeek`，例如 rgWeek(3, 7) 代表第三节一直上到第七节；
+
+  如果周数、节数是由多项组成，请使用加法。例如，第2周，5-11单数周，13-17 周，则为：
 ```python
 [2] + oeWeek(5, 11, 1) + rgWeek(13, 17)
 ```
@@ -51,18 +55,20 @@
 
 库中的 timetable_cqupt.py 是重庆邮电大学同学的一个版本，timetable_cqu.py 是重庆大学同学的一个版本，供你参考两种不同的 classes 和 Class 的变量内容。
 
-## 关于 GPS 位置
+## 添加 Apple Maps GEO
 
-这一功能**仅在 Apple 设备上进行测试**，在 iCalendar 标准中，似乎定义 GEO 并输入坐标即可确定位置，但在 iOS 和 macOS 上验证不通过。
+这一功能**仅在 Apple 设备上进行测试**，在 iCalendar 标准中，似乎定义 GEO 项并输入坐标即可确定位置，但在 iOS 和 macOS 上验证不通过。
 
 Apple 日历使用了`X-APPLE-STRUCTURED-LOCATION`，`X-APPLE-MAPKIT-HANDLE`来记录 Apple Maps 位置信息，这一项包含位置文字和坐标。一个样例内容如下:
 
-    LOCATION:重庆邮电大学综合实验大楼\n南山路新力村
-    X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=500;X-TITLE=重庆邮电大学综合实验大楼\\n南山路新力村:geo:29.524289,106.605595
+```c++
+LOCATION:重庆邮电大学综合实验大楼\n南山路新力村
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=500;X-TITLE=重庆邮电大学综合实验大楼\\n南山路新力村:geo:29.524289,106.605595
+```
 
 其中，`LOCATION`和`X-TITLE`中的地址必须**一字不差**的和 Apple Maps 结果对应，不得修改。geo 项则为坐标。
 
-为了保证可用性，这一段文本只能手动创建日历项并导出提取。如果您没有 iOS/macOS 设备，或您不需要 GPS 这一功能，可以直接跳过。
+为了保证可用性，这一段文本只能手动创建日历项并导出提取。
 
 ### 导出方法
 
@@ -74,7 +80,7 @@ Apple 日历使用了`X-APPLE-STRUCTURED-LOCATION`，`X-APPLE-MAPKIT-HANDLE`来�
 
 4. 你将可找到类似以下两个文段：
 
-```
+```c++
 LOCATION:重庆大学虎溪校区\n大学城南路55号    
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKITHANDLE=一大串文字;X-APPLE-RADIUS=925.4324489259043;X-TITLE=重庆大学虎溪校区\\n大学城南路5号:geo:29.592566,106.299150
 ```
@@ -85,9 +91,8 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKITHANDLE=一大串文字;X-APP
 
 ## 联系作者
 * 直接提交 Issue
-
 * Telegram [@shunitsu](http://t.me/shunitsu "@shunitsu")
+* 微博 [@除不尽的都](http://weibo.com/u/3566216663 "@除不尽的都")
 
-* 微博 [@赛艇的同学](http://weibo.com/n/赛艇的同学 "@赛艇的同学")
+— 重庆邮电大学国际学院
 
-2019/9/7 @重庆邮电大学国际学院
