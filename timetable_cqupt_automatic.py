@@ -16,9 +16,9 @@ for i in range(1, maxWeek):
 	weeks.append(singleWeek)
 
 def kebiao(studentNum):
-	data = {"stuNum": studentNum}; kecheng = []
-	headers = {"User-Agent": "zhang shang zhong you/4.0.9 (iPhone; iOS 13.3.1; Scale/2.00)"}
-	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/kebiao', data = data, headers = headers, timeout = 10)
+	data = {"stu_num": studentNum}; kecheng = []
+	headers = {"User-Agent": "zhang shang zhong you/4.1.1 (iPhone; iOS 13.5; Scale/2.00)"}
+	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/kebiao', data = data, headers = headers, verify = False, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
 	for _Class in ansTable:
@@ -28,8 +28,8 @@ def kebiao(studentNum):
 
 def kaoshi(studentNum):
 	data = {"stuNum": studentNum}; tests = []
-	headers = {"User-Agent": "zhang shang zhong you/4.0.9 (iPhone; iOS 13.3.1; Scale/2.00)"}
-	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/examSchedule', data = data, headers = headers, timeout = 10)
+	headers = {"User-Agent": "zhang shang zhong you/4.1.1 (iPhone; iOS 13.5; Scale/2.00)"}
+	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/examSchedule', data = data, headers = headers, verify = False, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
 	for _Test in ansTable:
@@ -135,5 +135,5 @@ allvEvent += "\nEND:VCALENDAR"
 
 report(iCalHeader + allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ')) #请直接注释
 
-jWrite = open("/root/www/cqupt.ics", "w")
+jWrite = open("cqupt.ics", "w")
 jWrite.write(iCalHeader + allvEvent); jWrite.close()
