@@ -78,6 +78,14 @@ for __Class in classes:
 	customGEO = ""
 	[CID, Name, Teacher, Kind, RawWeek, Location, classID, classWeek, classWeekday, classOrder] = __Class
 
+	if "YF" in Location: customGEO = """LOCATION:重庆邮电大学-逸夫科技楼\\n崇文路2号重庆邮电大学
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
+ -逸夫科技楼\\\\n崇文路2号重庆邮电大学:geo:29.535617,106.607390"""
+
+	if "SL" in Location: customGEO = """LOCATION:重庆邮电大学数理学院\\n崇文路2号重庆邮电大学内
+X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
+ 数理学院\\\\n崇文路2号重庆邮电大学内:geo:29.530599,106.605454"""
+
 	if "综合实验楼" in Location: customGEO = """LOCATION:重庆邮电大学综合实验大楼\\n南山路新力村
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  综合实验大楼\\\\n南山路新力村:geo:29.524289,106.605595"""
@@ -98,7 +106,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  -国际学院\\\\n崇文路2号重庆邮电大学内:geo:29.536131,106.610090"""
 
-	if Location[0] == "8": customGEO = """LOCATION:重庆邮电大学八教学楼A栋\\n崇文路2号重庆邮电大学内
+	if Location[:2] == "81": customGEO = """LOCATION:重庆邮电大学八教学楼A栋\\n崇文路2号重庆邮电大学内
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  八教学楼A栋\\\\n崇文路2号重庆邮电大学内:geo:29.535322,106.611020"""
 
