@@ -1,6 +1,6 @@
 # Python 大学生课表 iCalendar (.ics) 生成
 
-![效果图](render.jpg)
+![效果图](render_2020.jpg)
 
 ## 简介
 
