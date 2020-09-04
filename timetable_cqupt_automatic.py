@@ -7,7 +7,7 @@ maxWeek = 20; maxWeek += 1
 classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
 	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
 weeks = [None]
-starterDay = datetime(2020, 2, 17)
+starterDay = datetime(2020, 9, 7)
 for i in range(1, maxWeek):
 	singleWeek = []
 	for d in range(0, 7):
@@ -15,9 +15,11 @@ for i in range(1, maxWeek):
 		starterDay = starterDay + timedelta(days = 1)
 	weeks.append(singleWeek)
 
+requests.packages.urllib3.disable_warnings()
+
 def kebiao(studentNum):
 	data = {"stu_num": studentNum}; kecheng = []
-	headers = {"User-Agent": "zhang shang zhong you/4.1.1 (iPhone; iOS 13.5; Scale/2.00)"}
+	headers = {"User-Agent": "zhang shang zhong you/6.0.0 (iPhone; iOS 14.0; Scale/2.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/kebiao', data = data, headers = headers, verify = False, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
@@ -28,7 +30,7 @@ def kebiao(studentNum):
 
 def kaoshi(studentNum):
 	data = {"stuNum": studentNum}; tests = []
-	headers = {"User-Agent": "zhang shang zhong you/4.1.1 (iPhone; iOS 13.5; Scale/2.00)"}
+	headers = {"User-Agent": "zhang shang zhong you/6.0.0 (iPhone; iOS 14.0; Scale/2.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/examSchedule', data = data, headers = headers, verify = False, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
@@ -44,7 +46,7 @@ def report(comp, dts):
 	你可以在代码末尾直接去掉执行 report() 函数
 	'''
 	import IFTTT, difflib
-	org = open("/root/www/cqupt.ics")
+	org = open("/home/cqupt.ics")
 	orr = org.read(); org.close()
 	orc = orr.count("BEGIN:VEVENT"); crc = comp.count("BEGIN:VEVENT")
 	if orc != crc:
@@ -52,7 +54,7 @@ def report(comp, dts):
 		fileDiff += "<title>classTable changeLog " + dts + "</title></head><body><pre><code>"
 		for line in difflib.unified_diff(orr.split("\n"), comp.split("\n")): 
 			fileDiff += line + "\n"
-		dWrite = open("/root/www/classtable.html", "w")
+		dWrite = open("/home/classtable.html", "w")
 		dWrite.write(fileDiff + "</code></pre></body></html>"); dWrite.close()
 		IFTTT.pushbots("检测到课表或考试安排有变化，原先共有 " + str(orc) + " 个日程，现在有 "+ str(crc) + " 个，文件差异已经保存到 classtable.html",
 			"https://upload.wikimedia.org/wikipedia/zh/4/43/Cquptlogo.JPG",
@@ -64,7 +66,7 @@ iCalHeader = """BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
 X-WR-CALNAME:课表
-PRODID:-//Apple Inc.//Mac OS X 10.15.3//EN
+PRODID:-//Apple Inc.//Mac OS X 10.15.6//EN
 X-WR-TIMEZONE:Asia/Shanghai
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
@@ -76,7 +78,7 @@ allvEvent = ""
 
 for __Class in classes:
 	customGEO = ""
-	[CID, Name, Teacher, Kind, RawWeek, Location, classID, classWeek, classWeekday, classOrder] = __Class
+	CID, Name, Teacher, Kind, RawWeek, Location, classID, classWeek, classWeekday, classOrder = __Class
 
 	if "YF" in Location: customGEO = """LOCATION:重庆邮电大学-逸夫科技楼\\n崇文路2号重庆邮电大学
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
@@ -110,7 +112,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  八教学楼A栋\\\\n崇文路2号重庆邮电大学内:geo:29.535322,106.611020"""
 
-	if "运动场1" in Location: customGEO = """LOCATION:风华运动场\\n南山街道重庆邮电大学5栋
+	if "风华运动场" in Location: customGEO = """LOCATION:风华运动场\\n南山街道重庆邮电大学5栋
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=
  风华运动场\\\\n南山街道重庆邮电大学5栋:geo:29.532757,106.607510"""
 
@@ -141,7 +143,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 
 allvEvent += "\nEND:VCALENDAR"
 
-report(iCalHeader + allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ')) #请直接注释
+# report(iCalHeader + allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ'))
 
 jWrite = open("cqupt.ics", "w")
 jWrite.write(iCalHeader + allvEvent); jWrite.close()
