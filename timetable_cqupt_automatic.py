@@ -46,10 +46,10 @@ def report(comp, dts):
 	你可以在代码末尾直接去掉执行 report() 函数
 	'''
 	import IFTTT, difflib
-	org = open("/home/cqupt.ics")
-	orr = org.read(); org.close()
+	with open("/home/cqupt.ics") as r:
+		orr = r.read()
 	orc = orr.count("BEGIN:VEVENT"); crc = comp.count("BEGIN:VEVENT")
-	if orc != crc:
+	if orr != comp:
 		fileDiff = '<!DOCTYPE html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">'
 		fileDiff += "<title>classTable changeLog " + dts + "</title></head><body><pre><code>"
 		for line in difflib.unified_diff(orr.split("\n"), comp.split("\n")): 
