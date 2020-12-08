@@ -45,7 +45,9 @@ def report(comp, dts):
 	用途主要是在有课程变化时给手机发通知
 	你可以在代码末尾直接去掉执行 report() 函数
 	'''
-	import IFTTT, difflib
+	import telegram, difflib
+	from bot import tokens, chat_ids
+	token = tokens[0]; chat_id = chat_ids[0]
 	with open("/home/cqupt.ics") as r:
 		orr = r.read()
 	orc = orr.count("BEGIN:VEVENT"); crc = comp.count("BEGIN:VEVENT")
@@ -56,9 +58,16 @@ def report(comp, dts):
 			fileDiff += line + "\n"
 		dWrite = open("/home/classtable.html", "w")
 		dWrite.write(fileDiff + "</code></pre></body></html>"); dWrite.close()
-		IFTTT.pushbots("检测到课表或考试安排有变化，原先共有 " + str(orc) + " 个日程，现在有 "+ str(crc) + " 个，文件差异已经保存到 classtable.html",
-			"https://upload.wikimedia.org/wikipedia/zh/4/43/Cquptlogo.JPG",
-			"http://myv.ps/classtable.html", "linkraw", IFTTT.getkey()[0], 0)
+		
+		pushAns = "检测到课表或考试安排有变化，原先共有 " + str(orc) + " 个日程，现在有 "+ str(crc) + " 个"
+		linkURL = "http://myv.ps/classtable.html"
+		imageURL = "https://upload.wikimedia.org/wikipedia/zh/4/43/Cquptlogo.JPG"
+		bot = telegram.Bot(token = token)
+		bot.send_photo(
+			chat_id = chat_id, 
+			photo = imageURL,
+			caption = '*来自 timetable_cqupt_automatic 的通知*\n' + pushAns + "\n\n" + linkURL,
+			parse_mode = 'Markdown')
 
 classes = kebiao(studentNum) + kaoshi(studentNum)
 
