@@ -1,19 +1,19 @@
 import datetime
 from datetime import datetime, timedelta
 
-maxWeek = 20; maxWeek += 1
 classTime = [None, (8, 30), (9, 25), (10, 30), (11, 25), (14, 00), (14, 55), 
 	(16, 0), (16, 55), (19, 0), (19, 55), (20, 50)]
 weeks = [None]
 starterDay = datetime(2019, 9, 2)
-for i in range(1, maxWeek):
+for i in range(1, 30):
 	singleWeek = [None]
 	for d in range(0, 7):
 		singleWeek.append(starterDay)
 		starterDay = starterDay + timedelta(days = 1)
 	weeks.append(singleWeek)
 
-def rgWeek(startWeek, endWeek): return list(range(startWeek, endWeek + 1))
+def rgWeek(startWeek, endWeek): 
+	return list(range(startWeek, endWeek + 1))
 
 
 classes = [
@@ -39,7 +39,7 @@ iCalHeader = """BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
 X-WR-CALNAME:课表
-PRODID:-//Apple Inc.//Mac OS X 10.14.6//EN
+PRODID:-//Apple Inc.//macOS 11.0.1//EN
 X-WR-TIMEZONE:Asia/Shanghai
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
@@ -47,42 +47,45 @@ TZID:Asia/Shanghai
 END:VTIMEZONE"""
 
 createNow = datetime.now() - timedelta(hours = 8)
-dtStamp = createNow.strftime('%Y%m%dT%H%M%SZ')
-
 allvEvent = ""
 
 for Class in classes:
 	[Name, Teacher, Classmates, Location, classID, classWeek, classWeekday, classOrder] = Class[:]
 	Title = Name + " - " + Location
+
 	if "D1" in Location: customGEO = """LOCATION:重庆大学虎溪校区第一教学楼\\n大学城南路55号重庆大学虎溪校区
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=337.55;X-TITLE=重庆大学虎溪校区
  第一教学楼\\\\n大学城南路55号重庆大学虎溪校区:geo:29.595578,106.301135"""
+
 	if "DZ" in Location: customGEO = """LOCATION:重庆大学虎溪校区综合楼\\n大学城南路55号重庆大学虎溪校区
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=340.61;X-TITLE=重庆大学虎溪校区
  综合楼\\\\n大学城南路55号重庆大学虎溪校区:geo:29.596055,106.299510"""
+
 	if "DYC" in Location: customGEO = """LOCATION:重庆大学虎溪校区艺术楼\\n大学城南路55号重庆大学虎溪校区
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=434.41;X-TITLE=重庆大学虎溪校区
  艺术楼\\\\n大学城南路55号重庆大学虎溪校区:geo:29.593464,106.304183"""
+
 	if "D东大门" in Location: customGEO = """LOCATION:重庆大学虎溪校区(东门)\\n虎溪镇
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=686.05;X-TITLE=重庆大学虎溪校区
  (东门)\\\\n虎溪镇:geo:29.594176,106.307050"""
+
 	Description = classID + " 教学班" + Classmates + " 任课教师" + Teacher + "。"
 	classStartTime = []; classEndTime = []
+
 	for timeWeek in classWeek:
 		startTime = classTime[classOrder[0]]; endTime = classTime[classOrder[-1]]
 		classStartTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = startTime[0] * 60 + startTime[1]))
 		classEndTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = endTime[0] * 60 + endTime[1] + 45))
+
 	for i in range(len(classStartTime)):
 		vEvent = "\nBEGIN:VEVENT"
 		vEvent += "\nDTEND;TZID=Asia/Shanghai:" + classEndTime[i].strftime('%Y%m%dT%H%M%S')
 		vEvent += "\nSUMMARY:" + Title
-		vEvent += "\nDTSTAMP:" + dtStamp
 		vEvent += "\nDTSTART;TZID=Asia/Shanghai:" + classStartTime[i].strftime('%Y%m%dT%H%M%S')
 		vEvent += "\nDESCRIPTION:" + Description
 		vEvent += "\n" + customGEO
 		vEvent += "\nEND:VEVENT"
 		allvEvent += vEvent
 
-jWrite = open("/Users/junyi_lou/Desktop/课表.ics", "w")
-jWrite.write(iCalHeader + allvEvent + "\nEND:VCALENDAR")
-jWrite.close(); exit()
+with open("cqupt.ics", "w") as w:
+	w.write(iCalHeader + allvEvent)

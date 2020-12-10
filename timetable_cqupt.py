@@ -1,12 +1,11 @@
 import datetime
 from datetime import datetime, timedelta
 
-maxWeek = 20; maxWeek += 1
 classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
 	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
 weeks = [None]
 starterDay = datetime(2020, 9, 7)
-for i in range(1, maxWeek):
+for i in range(1, 30):
 	singleWeek = [None]
 	for d in range(0, 7):
 		singleWeek.append(starterDay)
@@ -22,7 +21,8 @@ def oeWeek(startWeek, endWeek, mode):
 	if mode: return oddWeek
 	else: return evenWeek
 
-def rgWeek(startWeek, endWeek): return list(range(startWeek, endWeek + 1))
+def rgWeek(startWeek, endWeek): 
+	return list(range(startWeek, endWeek + 1))
 
 
 classes = [
@@ -52,7 +52,7 @@ iCalHeader = """BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
 X-WR-CALNAME:课表
-PRODID:-//Apple Inc.//Mac OS X 10.15.6//EN
+PRODID:-//Apple Inc.//macOS 11.0.1//EN
 X-WR-TIMEZONE:Asia/Shanghai
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
@@ -98,7 +98,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  八教学楼A栋\\\\n崇文路2号重庆邮电大学内:geo:29.535322,106.611020"""
 
-	if "运动场1" in Location: customGEO = """LOCATION:风华运动场\\n南山街道重庆邮电大学5栋
+	if "风华运动场" in Location: customGEO = """LOCATION:风华运动场\\n南山街道重庆邮电大学5栋
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=
  风华运动场\\\\n南山街道重庆邮电大学5栋:geo:29.532757,106.607510"""
 
@@ -119,6 +119,5 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 
 allvEvent += "\nEND:VCALENDAR"
 
-jWrite = open("cqupt_20201.ics", "w")
-jWrite.write(iCalHeader + allvEvent)
-jWrite.close()
+with open("cqupt.ics", "w") as w:
+	w.write(iCalHeader + allvEvent)

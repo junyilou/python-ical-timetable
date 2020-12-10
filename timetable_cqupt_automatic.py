@@ -3,12 +3,11 @@ from datetime import datetime, timedelta
 
 studentNum = 2017212136 #直接修改为你的学号
 
-maxWeek = 20; maxWeek += 1
 classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
 	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
 weeks = [None]
 starterDay = datetime(2020, 9, 7)
-for i in range(1, maxWeek):
+for i in range(1, 30):
 	singleWeek = []
 	for d in range(0, 7):
 		singleWeek.append(starterDay)
@@ -19,7 +18,7 @@ requests.packages.urllib3.disable_warnings()
 
 def kebiao(studentNum):
 	data = {"stu_num": studentNum}; kecheng = []
-	headers = {"User-Agent": "zhang shang zhong you/6.0.0 (iPhone; iOS 14.0; Scale/2.00)"}
+	headers = {"User-Agent": "zhang shang zhong you/6.0.1 (iPhone; iOS 14.2.1; Scale/3.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/kebiao', data = data, headers = headers, verify = False, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
@@ -30,7 +29,7 @@ def kebiao(studentNum):
 
 def kaoshi(studentNum):
 	data = {"stuNum": studentNum}; tests = []
-	headers = {"User-Agent": "zhang shang zhong you/6.0.0 (iPhone; iOS 14.0; Scale/2.00)"}
+	headers = {"User-Agent": "zhang shang zhong you/6.0.1 (iPhone; iOS 14.2.1; Scale/3.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/examSchedule', data = data, headers = headers, verify = False, timeout = 10)
 	except: return "Request Timeout"
 	ansTable = json.loads(r.text)["data"]
@@ -43,7 +42,7 @@ def report(comp, dts):
 	'''
 	这一函数需要我写的另外的代码做支撑
 	用途主要是在有课程变化时给手机发通知
-	你可以在代码末尾直接去掉执行 report() 函数
+	默认不会执行这一函数
 	'''
 	import telegram, difflib
 	from bot import tokens, chat_ids
@@ -75,7 +74,7 @@ iCalHeader = """BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
 X-WR-CALNAME:课表
-PRODID:-//Apple Inc.//Mac OS X 10.15.6//EN
+PRODID:-//Apple Inc.//macOS 11.0.1//EN
 X-WR-TIMEZONE:Asia/Shanghai
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
@@ -154,5 +153,5 @@ allvEvent += "\nEND:VCALENDAR"
 
 # report(iCalHeader + allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ'))
 
-jWrite = open("cqupt.ics", "w")
-jWrite.write(iCalHeader + allvEvent); jWrite.close()
+with open("cqupt.ics", "w") as w:
+	w.write(iCalHeader + allvEvent)
