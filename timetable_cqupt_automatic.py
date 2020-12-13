@@ -153,5 +153,5 @@ allvEvent += "\nEND:VCALENDAR"
 
 # report(iCalHeader + allvEvent, createNow.strftime('%Y%m%dT%H%M%SZ'))
 
-with open("cqupt.ics", "w") as w:
+with open("/home/cqupt.ics", "w") as w:
 	w.write(iCalHeader + allvEvent)
