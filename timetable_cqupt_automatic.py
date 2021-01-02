@@ -20,7 +20,7 @@ def kebiao(studentNum):
 	data = {"stu_num": studentNum}; kecheng = []
 	headers = {"User-Agent": "zhang shang zhong you/6.0.1 (iPhone; iOS 14.2.1; Scale/3.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/kebiao', data = data, headers = headers, verify = False, timeout = 10)
-	except: return "Request Timeout"
+	except: return {}
 	ansTable = json.loads(r.text)["data"]
 	for _Class in ansTable:
 		kecheng.append(["CLASS", _Class["course"], _Class["teacher"], _Class["type"], _Class["rawWeek"], _Class["classroom"], 
@@ -31,7 +31,7 @@ def kaoshi(studentNum):
 	data = {"stuNum": studentNum}; tests = []
 	headers = {"User-Agent": "zhang shang zhong you/6.0.1 (iPhone; iOS 14.2.1; Scale/3.00)"}
 	try: r = requests.post(url = 'https://cyxbsmobile.redrock.team/api/examSchedule', data = data, headers = headers, verify = False, timeout = 10)
-	except: return "Request Timeout"
+	except: return {}
 	ansTable = json.loads(r.text)["data"]
 	for _Test in ansTable:
 		tests.append(["TEST", _Test["course"], _Test["begin_time"], _Test["end_time"], "", _Test["classroom"], 
