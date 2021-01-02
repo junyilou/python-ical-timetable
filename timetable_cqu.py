@@ -1,4 +1,3 @@
-import datetime
 from datetime import datetime, timedelta
 
 classTime = [None, (8, 30), (9, 25), (10, 30), (11, 25), (14, 00), (14, 55), 
@@ -12,8 +11,11 @@ for i in range(1, 30):
 		starterDay = starterDay + timedelta(days = 1)
 	weeks.append(singleWeek)
 
+def oeWeek(startWeek, endWeek, mode):
+	return [i for i in range(startWeek, endWeek + 1) if (i + mode) % 2 == 0]
+
 def rgWeek(startWeek, endWeek): 
-	return list(range(startWeek, endWeek + 1))
+	return [i for i in range(startWeek, endWeek + 1)]
 
 
 classes = [

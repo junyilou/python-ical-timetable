@@ -11,7 +11,7 @@ for i in range(1, 30):
 	singleWeek = []
 	for d in range(0, 7):
 		singleWeek.append(starterDay)
-		starterDay = starterDay + timedelta(days = 1)
+		starterDay += timedelta(days = 1)
 	weeks.append(singleWeek)
 
 requests.packages.urllib3.disable_warnings()

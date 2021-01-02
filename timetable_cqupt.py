@@ -1,4 +1,3 @@
-import datetime
 from datetime import datetime, timedelta
 
 classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
@@ -13,32 +12,26 @@ for i in range(1, 30):
 	weeks.append(singleWeek)
 
 def oeWeek(startWeek, endWeek, mode):
-	allWeek = range(startWeek, endWeek + 1)
-	oddWeek = []; evenWeek = []
-	for w in allWeek:
-		if w % 2 == 0: evenWeek.append(w)
-		else: oddWeek.append(w)
-	if mode: return oddWeek
-	else: return evenWeek
+	return [i for i in range(startWeek, endWeek + 1) if (i + mode) % 2 == 0]
 
 def rgWeek(startWeek, endWeek): 
-	return list(range(startWeek, endWeek + 1))
+	return [i for i in range(startWeek, endWeek + 1)]
 
 
 classes = [
-	["信号与系统（美方授课）", "xiefei", "5203", "A15202A2011290001", rgWeek(1, 12), 1, [3, 4]],
+	["信号与系统（美方授课）", "廖莎莎,Zhouxi", "5203", "A15202A2011290001", rgWeek(1, 12), 1, [3, 4]],
 	["面向对象程序设计-JAVA", "唐晓军", "3106", "A15202A2040370002", rgWeek(1, 16), 1, [5, 6]],
-	["信号与系统（美方授课）", "xiefei", "电子系统综合设计实验室2 YF312", "SK15202A2011290001", rgWeek(2, 5) + rgWeek(7, 10), 1, [9, 10]],
+	["信号与系统（美方授课）", "廖莎莎,Zhouxi", "电子系统综合设计实验室2 YF312", "SK15202A2011290001", rgWeek(5, 12), 1, [9, 10]],
 	["工程分析", "田娅", "5402", "A15202A2110660001", rgWeek(1, 16), 2, [1, 2]],
 	["电子学导论(美方授课)", "杜佳佳", "5601", "A15202A2021320001", rgWeek(1, 12), 2, [5, 6]],
-	["信号与系统（美方授课）", "xiefei", "5203", "A15202A2011290001", rgWeek(1, 12), 3, [1, 2]],
+	["信号与系统（美方授课）", "廖莎莎,Zhouxi", "5203", "A15202A2011290001", rgWeek(1, 12), 3, [1, 2]],
 	["面向对象程序设计-JAVA", "唐晓军", "计算机教室（六）(综合实验楼B405/B406)", "SK15202A2040370003", oeWeek(3, 17, 1), 3, [3, 4]],
 	["马克思主义基本原理概论", "李杨", "3105", "A15202A1100031016", rgWeek(1, 16), 3, [5, 6, 7]],
 	["形势与政策", "曹华", "5401", "A15202A1100010015", rgWeek(5, 8), 4, [1, 2]],
 	["健康教育2", "何雨桑", "5401", "A15202B1220050006", rgWeek(9, 16), 4, [1, 2]],
 	["工程分析", "田娅", "5402", "A15202A2110660001", rgWeek(1, 16), 4, [5, 6]],
 	["电子学导论(美方授课)", "杜佳佳", "5601", "A15202A2021320001", rgWeek(1, 12), 4, [9, 10]],
-	["电子学导论(美方授课)", "杜佳佳", "电子技术实验室（一）(综合实验楼B201/B202)", "SK15202A2021320001", rgWeek(2, 9), 5, [3, 4]],
+	["电子学导论(美方授课)", "杜佳佳,Murali Kosgi", "电子技术实验室（一）(综合实验楼B201/B202)", "SK15202A2021320001", rgWeek(2, 9), 5, [3, 4]],
 	["学术英语", "刘松", "5404", "A15202A2011250001", rgWeek(1, 16), 5, [7, 8]]
 ]
 
