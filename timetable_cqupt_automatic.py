@@ -1,4 +1,4 @@
-import datetime, requests, json
+import requests, json
 from datetime import datetime, timedelta
 
 studentNum = 2017212136 #直接修改为你的学号
@@ -116,7 +116,7 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  -国际学院\\\\n崇文路2号重庆邮电大学内:geo:29.536131,106.610090"""
 
-	if Location[:2] == "81": customGEO = """LOCATION:重庆邮电大学八教学楼A栋\\n崇文路2号重庆邮电大学内
+	if Location[0] == "8": customGEO = """LOCATION:重庆邮电大学八教学楼A栋\\n崇文路2号重庆邮电大学内
 X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=200;X-TITLE=重庆邮电大学
  八教学楼A栋\\\\n崇文路2号重庆邮电大学内:geo:29.535322,106.611020"""
 
