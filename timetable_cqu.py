@@ -1,3 +1,4 @@
+from random import sample
 from datetime import datetime, timedelta
 
 classTime = [None, (8, 30), (9, 25), (10, 30), (11, 25), (14, 00), (14, 55), 
@@ -8,14 +9,12 @@ for i in range(1, 30):
 	singleWeek = [None]
 	for d in range(0, 7):
 		singleWeek.append(starterDay)
-		starterDay = starterDay + timedelta(days = 1)
+		starterDay += timedelta(days = 1)
 	weeks.append(singleWeek)
 
-def oeWeek(startWeek, endWeek, mode):
-	return [i for i in range(startWeek, endWeek + 1) if (i + mode) % 2 == 0]
-
-def rgWeek(startWeek, endWeek): 
-	return [i for i in range(startWeek, endWeek + 1)]
+oeWeek = lambda startWeek, endWeek, mode: [i for i in range(startWeek, endWeek + 1) if (i + mode) % 2 == 0]
+rgWeek = lambda startWeek, endWeek: [i for i in range(startWeek, endWeek + 1)]
+uid_generate = lambda: "-".join(map(lambda l: ''.join(sample("0123456789ABCDEF", l)), [8, 4, 4, 4, 12]))
 
 
 classes = [
@@ -37,19 +36,33 @@ classes = [
 	["程序设计基础(1)", "陈波", "000509-001E", "DS1421", "FCP0000-002顺序程序设计", [9], 7, rgWeek(5, 8)]
 ]
 
-iCalHeader = """BEGIN:VCALENDAR
+iCal = """BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
 X-WR-CALNAME:课表
-PRODID:-//Apple Inc.//macOS 11.0.1//EN
+PRODID:-//Apple Inc.//macOS 11.2.3//EN
+X-APPLE-CALENDAR-COLOR:#711A76
 X-WR-TIMEZONE:Asia/Shanghai
 CALSCALE:GREGORIAN
 BEGIN:VTIMEZONE
 TZID:Asia/Shanghai
-END:VTIMEZONE"""
+BEGIN:STANDARD
+TZOFFSETFROM:+0900
+RRULE:FREQ=YEARLY;UNTIL=19910914T170000Z;BYMONTH=9;BYDAY=3SU
+DTSTART:19890917T020000
+TZNAME:GMT+8
+TZOFFSETTO:+0800
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0800
+DTSTART:19910414T020000
+TZNAME:GMT+8
+TZOFFSETTO:+0900
+RDATE:19910414T020000
+END:DAYLIGHT
+END:VTIMEZONEE"""
 
-createNow = datetime.now() - timedelta(hours = 8)
-allvEvent = ""
+runtime = datetime.now().strftime('%Y%m%dT%H%M%SZ')
 
 for Class in classes:
 	[Name, Teacher, Classmates, Location, classID, classWeek, classWeekday, classOrder] = Class[:]
@@ -80,14 +93,23 @@ X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKIT-HANDLE=;X-APPLE-RADIUS=686.
 		classEndTime.append(weeks[timeWeek][classWeekday] + timedelta(minutes = endTime[0] * 60 + endTime[1] + 45))
 
 	for i in range(len(classStartTime)):
-		vEvent = "\nBEGIN:VEVENT"
-		vEvent += "\nDTEND;TZID=Asia/Shanghai:" + classEndTime[i].strftime('%Y%m%dT%H%M%S')
-		vEvent += "\nSUMMARY:" + Title
-		vEvent += "\nDTSTART;TZID=Asia/Shanghai:" + classStartTime[i].strftime('%Y%m%dT%H%M%S')
-		vEvent += "\nDESCRIPTION:" + Description
-		vEvent += "\n" + customGEO
-		vEvent += "\nEND:VEVENT"
-		allvEvent += vEvent
+		StartTime = classStartTime[i].strftime('%Y%m%dT%H%M%S')
+		EndTime = classEndTime[i].strftime('%Y%m%dT%H%M%S')
+		singleEvent = f"""
+BEGIN:VEVENT
+DTEND;TZID=Asia/Shanghai:{EndTime}
+{customGEO}
+DESCRIPTION:{Description}
+UID:{uid_generate()}
+DTSTAMP:{runtime}
+URL;VALUE=URI:
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+SUMMARY:{Title}
+CREATED:{runtime}
+DTSTART;TZID=Asia/Shanghai:{StartTime}
+END:VEVENT"""
+		iCal += singleEvent
+iCal += "\nEND:VCALENDAR"
 
-with open("cqupt.ics", "w") as w:
-	w.write(iCalHeader + allvEvent)
+with open("cqu.ics", "w") as w:
+	w.write(iCal)
