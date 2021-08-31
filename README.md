@@ -71,9 +71,6 @@ classes = [
 
 5. 在 `classEndTime.append` 行末尾将 `+ 45` 修改为加每节课的时长，一节课 40 分钟则为 `+ 40`。
 
-
-库中的 **timetable_cqupt.py** 是重庆邮电大学同学的一个版本，**timetable_cqu.py** 是重庆大学同学的一个版本，供你参考两种不同的 classes 和 Class 变量内容。
-
 ## 添加定位信息
 
 * 如果你只是想在日历项的地理位置中增加一个教学楼的名称
