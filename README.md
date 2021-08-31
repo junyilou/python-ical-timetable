@@ -1,6 +1,6 @@
 ## Python 大学生课表 (.ics) 生成
 
-**如果你是重庆邮电大学学生，请访问 [CQUPT-ics](https://github.com/junyilou/CQUPT-ics) 项目，可自动生成学生课表。**
+**如果你是重庆邮电大学学生，请访问 [CQUPT-ics](https://github.com/qwqVictor/CQUPT-ics) 项目，可自动生成学生课表。**
 
 ![效果图](render_2020.jpg)
 
