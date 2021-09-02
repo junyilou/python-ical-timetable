@@ -14,7 +14,7 @@ iCalendar 是广泛使用的日历数据交换标准，在诸如 Apple 日历、
 
 ## 功能
 
-* 经测试，兼容 Apple 日历、Google Calendar、Outlook Calendar 等日历应用，支持上述应用的日历订阅（如果以本代码生成的文件创建日历订阅）
+* 经测试，兼容 Apple 日历、Google Calendar、Outlook Calendar 等日历应用，**支持上述应用的日历订阅**（如果以本代码生成的文件创建日历订阅）
 * 支持录入各种信息，示例代码中包含：教室、课程名称、教师、必修/选修状态等
 * 支持多种课程时间安排：**单独的周数，范围的周数，奇偶周数**，如 "**第2周，5 至 11 周中的单数周，13 至 17 周**"
 * 支持添加教学楼信息，其中 **Apple 日历还支持教学楼 GPS 定位** ，在日历项中添加教学楼，就可利用 iOS 的 Siri 分析功能在多个 app 中获得附加功能
@@ -71,7 +71,12 @@ classes = [
 
 5. 在 `classEndTime` 赋值行末尾将 `+ 45` 修改为加每节课的时长，一节课 40 分钟则为 `+ 40`。
 
-## 添加定位信息
+## 生成后使用
+
+* 要了解什么是日历订阅，如何进行日历订阅，请了解[文档](https://github.com/qwqVictor/CQUPT-ics/blob/main/docs/ImportOrSubscribe.md)；
+* 要了解生成日历文件后如何导入或添加日历订阅到 Apple 设备，请了解[文档](https://github.com/qwqVictor/CQUPT-ics/blob/main/docs/ImportOrSubscribe.md)。
+
+## 为代码添加定位信息
 
 * 如果你只是想在日历项的地理位置中增加一个教学楼的名称
 
