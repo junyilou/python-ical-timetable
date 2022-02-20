@@ -1,8 +1,8 @@
+import class_time
 from hashlib import md5
 from datetime import datetime, timedelta
 
-classTime = [None, (8, 0), (8, 55), (10, 15), (11, 10), (14, 00), (14, 55), 
-	(16, 15), (17, 10), (19, 0), (19, 55), (20, 50), (21, 45)]
+classTime = class_time.cqupt
 weeks = [None]
 starterDay = datetime(2021, 9, 6)
 for i in range(1, 30):
