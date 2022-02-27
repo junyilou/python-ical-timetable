@@ -114,8 +114,8 @@ from CQUPT import classes   # 创建课表数组并导入为 classes
 * 方法一：将教室文字搭配坐标信息显示在日历中（几乎所有 ICS 客户端都支持）
 
   ```python
-  loc = "教室 " + classroom  # 想要显示在日历项地址中的文字
-  cor = "30.0000;100.000"   # 地理坐标，纬度、经度之间以 ; 间隔
+  loc = "教室 " + classroom 
+  cor = "30.0000;100.000"
   ```
 
   修改 `school` 对象中 `geo` 方法的 `loc` 和 `cor`，就可以根据教室返回特定的文字和坐标
@@ -152,23 +152,22 @@ from CQUPT import classes   # 创建课表数组并导入为 classes
 
   ```python
   AppleMaps = lambda loc: [
-  		# 使用 r-String 可以避免转义符号的歧义
     {
-      "judge": "教学楼一" in loc,  # 设置匹配「教学楼一」的条件
+      "judge": "教学楼一" in loc,
       "text": r"""LOCATION:某大学一教学楼\n某大学内
-  X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-TITLE=某大学一教学楼\\n某大学内:geo:30.0000,100.000"""  # 复制 Apple Maps 信息
+  X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-TITLE=某大学一教学楼\\n某大学内:geo:30.0000,100.000"""
     },
     {
-      "judge": True,    # 请设置一个一直为 True 的建筑用于缺省匹配
+      "judge": True,
       "text": r"""LOCATION:某大学一教学楼\n某大学内
   X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-TITLE=某大学一教学楼\\n某大学内:geo:30.0000,100.000"""
     }
   ]
   ```
-
-  每一个字典中，```judge``` 为匹配条件，只要可以作为 `if` 语句判断结果的均可作为条件，`text` 为刚刚获得的 Apple Maps 相关文本，注意这里使用了 r-String 和三引号文段，这便于您直接将 Apple Maps 生成的文本复制入内，而无需担心转义符号和换行符号的问题。最后确定 `geo` 方法中正确调用 Apple Maps 信息即可。
-
   
+每一个字典中，```judge``` 为匹配条件，只要可以作为 `if` 语句判断结果的均可作为条件，`text` 为刚刚获得的 Apple Maps 相关文本，注意这里使用了 r-String 和三引号文段，这便于您直接将 Apple Maps 生成的文本复制入内，而无需担心转义符号和换行符号的问题。最后确定 `geo` 方法中正确调用 Apple Maps 信息即可。
+  
+
 
 ## 联系作者
 
