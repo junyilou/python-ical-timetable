@@ -76,10 +76,10 @@ classes = [
 
 ```python
 class school:
-	name = "school"
-	classTime = [(8, 0), (9, 0), (10, 0)]
-	classPeriod = 50
-	starterDay = [2022, 2, 28]
+  name = "school"
+  classTime = [(8, 0), (9, 0), (10, 0)]
+  classPeriod = 50
+  starterDay = [2022, 2, 28]
 ```
 
 在 `school.py`，还有一个名为 `school` 的对象，这是您填写学校相关信息的地方：
@@ -96,7 +96,7 @@ class school:
 
 ```python
 # 只需修改此处的导入文件名
-from CQUPT import school    # 创建学校的对象并导入为 school
+from CQUPT import school  # 创建学校的对象并导入为 school
 from CQUPT import classes   # 创建课表数组并导入为 classes
 ```
 
@@ -142,7 +142,7 @@ from CQUPT import classes   # 创建课表数组并导入为 classes
   * 你将可找到类似以下两个文段：
 
   ```C++
-  LOCATION:重庆大学虎溪校区\n大学城南路55号    
+  LOCATION:重庆大学虎溪校区\n大学城南路55号  
   X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-MAPKITHANDLE=1234567890ABCDEF;X-APPLE-RADIUS=925.4324489259043;X-TITLE=重庆大学虎溪校区\\n大学城南路5号:geo:29.592566,106.299150
   ```
 
@@ -153,17 +153,17 @@ from CQUPT import classes   # 创建课表数组并导入为 classes
   ```python
   AppleMaps = lambda loc: [
   		# 使用 r-String 可以避免转义符号的歧义
-  		{
-  			"judge": "教学楼一" in loc,  # 设置匹配「教学楼一」的条件
-  			"text": r"""LOCATION:某大学一教学楼\n某大学内
+    {
+      "judge": "教学楼一" in loc,  # 设置匹配「教学楼一」的条件
+      "text": r"""LOCATION:某大学一教学楼\n某大学内
   X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-TITLE=某大学一教学楼\\n某大学内:geo:30.0000,100.000"""  # 复制 Apple Maps 信息
-  		},
-  		{
-  			"judge": True,        # 请设置一个一直为 True 的建筑用于缺省匹配
-  			"text": r"""LOCATION:某大学一教学楼\n某大学内
+    },
+    {
+      "judge": True,    # 请设置一个一直为 True 的建筑用于缺省匹配
+      "text": r"""LOCATION:某大学一教学楼\n某大学内
   X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-TITLE=某大学一教学楼\\n某大学内:geo:30.0000,100.000"""
-  		}
-  	]
+    }
+  ]
   ```
 
   每一个字典中，```judge``` 为匹配条件，只要可以作为 `if` 语句判断结果的均可作为条件，`text` 为刚刚获得的 Apple Maps 相关文本，注意这里使用了 r-String 和三引号文段，这便于您直接将 Apple Maps 生成的文本复制入内，而无需担心转义符号和换行符号的问题。最后确定 `geo` 方法中正确调用 Apple Maps 信息即可。
