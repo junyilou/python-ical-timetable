@@ -23,16 +23,18 @@ class school:
 
 	classTime = [
 		(8, 0),
-		(9, 0),
-		(10, 0)
-	]                             # 每节课的上课时间（如: 这 3 节课的上课时间分别是 8 点、9 点、10 点）
+		(14, 10),
+		(20, 20)
+	]                             # 每节课的上课时间（如: 这 3 节课的上课时间分别是 上午 8:00、下午 2:10、晚上 8:20）
 
 	classPeriod = 50              # 每一节课的时长分钟数（如: 50 分钟）
 
 	starterDay = [2022, 2, 28]    # 开学第一周星期一的日期，存储为年、月、日三项
 
-	AppleMaps = lambda loc: [     # （如果不使用 Apple Maps可以完全忽略！）返回 Apple Maps 地址字典的匿名函数
-		# 使用 r-String 可以避免转义符号的歧义
+	AppleMaps = lambda loc: [     # （如果不使用 Apple Maps 可以完全忽略！）返回 Apple Maps 地址字典的匿名函数
+		
+		# 使用 r-String 以及三引号文段可以避免转义符号的歧义
+
 		{
 			"judge": "教学楼一" in loc,  # 设置匹配「教学楼一」的条件
 			"text": r"""LOCATION:某大学一教学楼\n某大学内
