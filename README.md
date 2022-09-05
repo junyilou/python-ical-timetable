@@ -79,6 +79,7 @@ class school:
   name = "school"
   classTime = [(8, 0), (9, 0), (10, 0)]
   classPeriod = 50
+  alarmTime = 10
   starterDay = [2022, 2, 28]
 ```
 
@@ -86,6 +87,7 @@ class school:
 
 * `classTime` 包含了每节课上课的时间点，用于生成每节课的具体日历项
 * `classPeriod` 为每节课的时长
+* `alarmTime` 表示提前十分钟提醒，不希望提醒则设值为 0
 * `starterDay` 为开学第一周星期一的日期，作为生成日历的起始点
 
 此外，还包装了  `geo`  函数和 `AppleMaps` 函数，可为您的日历项增加地点信息！详细的使用方法请参加下文的「为代码添加定位信息」段。

@@ -28,13 +28,15 @@ class school:
 		(21, 10)
 	]                             
 
-	classPeriod = 45              
+	classPeriod = 45
+
+	alarmTime = 10
 
 	starterDay = [2022, 9, 5]    
 
 	AppleMaps = lambda loc: []
 
 	def geo(classroom):
-		loc = "教室 " + classroom  
+		loc = "教室 " + classroom
 		cor = "29.351342, 105.938361"   
 		return f"LOCATION:{loc}\nGEO:{cor}"  

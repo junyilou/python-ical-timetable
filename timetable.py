@@ -29,6 +29,16 @@ TZID:Asia/Shanghai
 END:VTIMEZONE
 """
 
+alarm = f"""
+BEGIN:VALARM
+X-WR-ALARMUID:B0A2DECC-0788-477C-99CA-2A235181AD3E
+UID:B0A2DECC-0788-477C-99CA-2A235181AD3E
+TRIGGER:-PT{school.alarmTime}M
+ATTACH;VALUE=URI:Chord
+ACTION:AUDIO
+END:VALARM
+"""
+
 runtime = datetime.now().strftime('%Y%m%dT%H%M%SZ')
 
 for Class in classes:
@@ -53,6 +63,7 @@ URL;VALUE=URI:
 SUMMARY:{Title}
 DTSTART;TZID=Asia/Shanghai:{StartTime}
 {school.geo(Location)}
+{alarm if school.alarmTime else ""}
 END:VEVENT
 """
 		iCal += singleEvent

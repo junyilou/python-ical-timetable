@@ -29,6 +29,8 @@ class school:
 
 	classPeriod = 50              # 每一节课的时长分钟数（如: 50 分钟）
 
+	alarmTime = 0				  # 提前多少分钟提醒，0 表示不提醒
+
 	starterDay = [2022, 2, 28]    # 开学第一周星期一的日期，存储为年、月、日三项
 
 	AppleMaps = lambda loc: [     # （如果不使用 Apple Maps 可以完全忽略！）返回 Apple Maps 地址字典的匿名函数

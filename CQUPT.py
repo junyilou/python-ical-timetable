@@ -31,6 +31,8 @@ class school:
 
 	classPeriod = 45
 
+	alarmTime = 0
+
 	starterDay = [2022, 2, 28]
 
 	AppleMaps = lambda loc: [
