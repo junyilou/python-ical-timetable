@@ -1,18 +1,23 @@
 ## Python 大学生课表 (.ics) 生成
 
-**如果你是重庆邮电大学学生，请访问 [CQUPT-ics](https://github.com/qwqVictor/CQUPT-ics) 项目，可自动生成学生课表。**
-
 ![效果图](render_2021.jpg)
 
-\* **2021 年 9 月更新**：此代码于 2021 年 3 月增加了日历项 UID 生成，在此之前生成的 ics 文件可以正常导入 Apple 日历，但在 iOS「已订阅的日历」设置中订阅 ics 可能存在问题；此代码于 2021 年 9 月修改了 UID 生成方式，解决了在订阅日历中由于随机 UID 出现日历项不断重置的问题。敬请使用更新后的代码。
+此代码于 2021 年 3 月增加了日历项 UUID 生成，使得其更适合日历订阅，又于 2021 年 9 月修改了 UUID 生成方式，解决了随机 UUID 导致日历项重置的问题，敬请使用更新后的代码。2022 年 2 月，将数据输入和日历生成变得更为模块化，减少用户对主程序代码的修改，功能上与 2021 年 9 月发布的版本无异。
 
-\* **2022 年 2 月更新**：此代码于 2022 年 2 月将数据输入和日历生成变得更为模块化，减少用户对主程序代码的修改，功能上与 2021 年 9 月发布的版本无异。
+#### 已完成的一些学校项目
+
+| 学校         | 项目地址                                            |
+| ------------ | --------------------------------------------------- |
+| 重庆邮电大学 | [CQUPT-ics](https://github.com/qwqVictor/CQUPT-ics) |
+| 福建师范大学 | [FJNU-ics](https://github.com/payphone-x/FJNU-ics)  |
+
+
 
 ## 简介
 
 iCalendar 是广泛使用的日历数据交换标准，在诸如 Apple 日历、Google Calendar 的日历 app 中创建日历项，不仅可清晰的了解日程安排，更可体验 iOS、Android 系统为日历提供的各种功能：计划出行时间、日程提醒、如 Siri 与 Google Assistant 等智能语音助理自动化服务等。
 
-不过，并非所有学校都为学生提供 ics 日历，因此本代码旨在用 Python 3 协助你创建一个自己的 ics 日历课表。
+不过，并非所有学校都为学生提供 ics 日历，因此本代码旨在用 Python 3 协助你创建一个自己的基础 ics 日历课表。
 
 **本代码的特色为：**
 
@@ -29,15 +34,15 @@ iCalendar 是广泛使用的日历数据交换标准，在诸如 Apple 日历、
 * `school.py` 一个包含课表 `classes` 和学校对象 `school` 的参考代码
 * `CQUPT.py` 一个重庆邮电大学学生的实际课表和实际学校对象，作为示例
 
-您只需要参考 `school.py` 编写一个属于自己学校和课表的代码即可！
+你只需要参考 `school.py` 编写一个属于自己学校和课表的代码即可！
 
 ### 建立你的 school.py
 
-建议首先创建一个空白的代码，可复制 `school.py` 中的内容作为参考。
+建议首先创建一个空白的代码，可复制 `school.py` 中的内容作为参考，例如命名为 MySchool.py。
 
 #### 建立课程信息
 
-在 `school.py` 中，有一个名为 `classes` 的数组，这是您填写课程的地方：
+在 `school.py` 中，有一个名为 `classes` 的数组，这是你填写课程的地方：
 
 ```python
 classes = [
@@ -58,12 +63,16 @@ classes = [
 每一门课程都是一个数组，格式为 `[课程名, 教师名, 教室, 上课具体周, 周几, 第几节课]`
 
 **如何设置课程在哪一周？**
+
 单独周：请改为数组形式，例如 [2]；
+
 范围周：可使用 `rgWeek` 函数，例如 `rgWeek(3, 7)` 代表第三周到第七周；
+
 奇数周：可使用 `oeWeek` 函数，例如 `oeWeek(2, 9, 1)` 代表第二周到第九周的单数周，将 1 改为 0 即为偶数周。
 
 **如何设置课程在哪一节？**
 一节课：请改为数组形式，例如 [2]；
+
 范围课，可使用 `rgWeek` 函数，例如 `rgWeek(3, 7)` 代表第三节一直上到第七节；
 
 当然，在任意时候都可以直接用数组列举出所有的值，例如 `[2, 3, 5, 7, 10, 12, 16]`。如果周数、节数是由多项组成，请使用加法。例如，第2周，5-11单数周，13-17 周，则为：
@@ -82,13 +91,13 @@ class school:
   starterDay = [2022, 2, 28]
 ```
 
-在 `school.py`，还有一个名为 `school` 的对象，这是您填写学校相关信息的地方：
+在 `school.py`，还有一个名为 `school` 的对象，这是你填写学校相关信息的地方：
 
 * `classTime` 包含了每节课上课的时间点，用于生成每节课的具体日历项
 * `classPeriod` 为每节课的时长
 * `starterDay` 为开学第一周星期一的日期，作为生成日历的起始点
 
-此外，还包装了  `geo`  函数和 `AppleMaps` 函数，可为您的日历项增加地点信息！详细的使用方法请参加下文的「为代码添加定位信息」段。
+此外，还包装了  `geo`  函数和 `AppleMaps` 函数，可为你的日历项增加地点信息！详细的使用方法请参加下文的「为代码添加定位信息」段。
 
 ### 运行代码
 
@@ -96,22 +105,27 @@ class school:
 
 ```python
 # 只需修改此处的导入文件名
-from CQUPT import school  # 创建学校的对象并导入为 school
-from CQUPT import classes   # 创建课表数组并导入为 classes
+from CQUPT import school, classes
 ```
 
-修改 `CQUPT` 为你刚刚创建的 `school.py` 的代码名，然后运行即可！
+修改 `CQUPT` 为你刚刚创建的代码名，例如：
+
+```python
+from MySchool import school, classes
+```
+
+然后运行即可！
 
 ## 生成后使用
 
-* 要了解生成日历文件后如何导入或添加日历订阅到 Apple 设备，请了解[文档](https://github.com/qwqVictor/CQUPT-ics/blob/main/docs/ImportOrSubscribe.md)。
-* 进阶使用：要了解什么是日历订阅，如何进行日历订阅，请了解[文档](https://github.com/qwqVictor/CQUPT-ics/blob/main/docs/ImportOrSubscribe.md)；
+* 要了解生成日历文件后如何导入或添加日历订阅到 Apple 设备，参阅[文档](https://github.com/qwqVictor/CQUPT-ics/blob/main/docs/ImportOrSubscribe.md)；
+* 进阶使用：要了解什么是日历订阅，如何进行日历订阅，参阅[文档](https://github.com/qwqVictor/CQUPT-ics/blob/main/docs/ImportOrSubscribe.md)。
 
 ## 为代码添加定位信息
 
 代码提供了两种添加定位信息的方法
 
-* 方法一：将教室文字搭配坐标信息显示在日历中（几乎所有 ICS 客户端都支持）
+* 方法一：将教室文字搭配坐标信息显示在日历中（几乎所有 ics 客户端都支持）
 
   ```python
   loc = "教室 " + classroom 
@@ -165,7 +179,7 @@ from CQUPT import classes   # 创建课表数组并导入为 classes
   ]
   ```
   
-  每一个字典中，```judge``` 为匹配条件，只要可以作为 `if` 语句判断结果的均可作为条件，`text` 为刚刚获得的 Apple Maps 相关文本，注意这里使用了 r-String 和三引号文段，这便于您直接将 Apple Maps 生成的文本复制入内，而无需担心转义符号和换行符号的问题。最后确定 `geo` 方法中正确调用 Apple Maps 信息即可。
+  每一个字典中，```judge``` 为匹配条件，只要可以作为 `if` 语句判断结果的均可作为条件，`text` 为刚刚获得的 Apple Maps 相关文本，这里使用了 r-String 和三引号文段便于你直接将 Apple Maps 生成的文本复制入内，而无需担心转义符号和换行符号的问题。最后确定 `geo` 方法中正确调用 Apple Maps 信息即可。
   
 
 
