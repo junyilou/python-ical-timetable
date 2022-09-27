@@ -1,6 +1,6 @@
 # 编写你自己的学校对象和课表数据！
 
-oeWeek = lambda startWeek, endWeek, mode: [i for i in range(startWeek, endWeek + 1) if (i + mode) % 2 == 0] #奇偶周的实现函数
+oeWeek = lambda startWeek, endWeek, mode: [i for i in range(startWeek, endWeek + 1) if (i + mode + 1) % 2] #奇偶周的实现函数
 rgWeek = lambda startWeek, endWeek: [i for i in range(startWeek, endWeek + 1)] # 范围周的实现函数
 
 classes = [
