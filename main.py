@@ -2,7 +2,7 @@ from data import AppleMaps, Course, Geo, School
 
 品学楼地图 = AppleMaps("UESTC.ics")
 立人楼A = Geo("电子科技大学清水河校区立人楼A区", 30.749454, 103.932191)
-立人楼B = Geo("电子科技大学清水河校区立人楼A区", 30.748903, 103.931567)
+立人楼B = Geo("电子科技大学清水河校区立人楼B区", 30.748903, 103.931567)
 # 定位信息的设置请参考 README.md
 
 school = School(
