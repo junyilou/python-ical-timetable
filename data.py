@@ -101,7 +101,7 @@ class School:
         date = self.start + timedelta(weeks=week - 1, days=weekday - 1)
         return date.replace(
             hour=self.timetable[index][0], minute=self.timetable[index][1]
-        ) + timedelta(minutes=45 if plus else 0)
+        ) + timedelta(minutes=self.duration if plus else 0)
 
     def generate(self) -> str:
         runtime = datetime.now()
@@ -167,10 +167,8 @@ class AppleMaps:
         self.locations: dict[str, dict[str, str]] = {}
         with open(calendar) as r:
             c = r.read()
-        _ = [
+        for i in re.findall(r"(?<=BEGIN:VEVENT)[\s\S]*?(?=END:VEVENT)", c):
             self.generate(i)
-            for i in re.findall(r"(?<=BEGIN:VEVENT)[\s\S]*?(?=END:VEVENT)", c)
-        ]
 
     def generate(self, event: str) -> None:
         lines = event.split("\n")
@@ -187,9 +185,8 @@ class AppleMaps:
             return
         title = data.pop("SUMMARY").removeprefix("SUMMARY:").strip()
         geo = re.findall(r"geo:([\d.]+),([\d.]+)", data["X-APPLE-STRUCTURED-LOCATION"])
-        if not geo:
-            return
-        data["GEO"] = Geo(title, geo[0][0], geo[0][1]).geo
+        if geo:
+            data["GEO"] = Geo(title, geo[0][0], geo[0][1]).geo
         self.locations[title] = data
 
     def __getitem__(self, key: str) -> list[str]:
