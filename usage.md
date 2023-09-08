@@ -47,13 +47,13 @@ iOS 提供两种方式订阅日历，其中前者支持将订阅同步到 iCloud
   打开 Safari 浏览器，并输入如下地址：
 
   ```
-  webcal://<你的 ics 地址>
+  webcal://<你的 ics 地址，不要包含 http 协议部分>
   ```
 
   例如：
 
   ```
-  webcal://exmaple.com/example.ics
+  webcal://example.com/example.ics
   ```
 
   将提示跳转至 日历 app，点击「订阅」，你可以设置禁用提醒、是否同步到 iCloud 等，设置完成后点击添加即可。
