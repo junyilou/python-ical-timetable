@@ -109,6 +109,8 @@ class School:
         for course in self.courses:
             if not course.location:
                 course.location = []
+            elif isinstance(course.location, str):
+                course.location = [f"LOCATION:{course.location}"]
             elif isinstance(course.location, Geo):
                 course.location = course.location.result()
             assert isinstance(course.location, list), "课程定位信息类型不正确"
@@ -125,7 +127,7 @@ class School:
                     f"UID:{md5(str((course.title, week, course.weekday, course.indexes[0])).encode()).hexdigest()}",
                     f"URL;VALUE=URI:",
                     *course.location,
-                    f"END:VEVENT",
+                    "END:VEVENT",
                 ]
                 for course in self.courses
                 for week in course.weeks

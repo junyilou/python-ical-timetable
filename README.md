@@ -53,9 +53,9 @@ Course(
   name = "信号检测与估计",
   teacher = "张三",
   classroom = "立人楼B411",
-  location = None, # 定位信息的设置方式详见后文
+  location = None, # 设置方法详见后文
   weekday = 5, # 星期五则为 5，星期日则为 7
-  weeks = [1] + Course.odd_week(3, 13),
+  weeks = [2] + Course.odd_week(3, 13), # 2, 3, 5, ..., 13 周
   indexes = [7, 8, 9] # 或者 Course.week(7, 9)
 )
 ```
@@ -116,7 +116,23 @@ School(
 
 #### 经纬度定位信息
 
-除了通过文字记录教室的名称，你还可以设置日历项发生的位置，并绑定经纬度坐标信息
+除了通过文字记录教室的名称，你还可以设置日历项发生的位置。
+
+如需简单设置，可直接对 `location` 参数传入字符串，如：
+
+```python
+Course(
+  name = "信号检测与估计",
+  teacher = "张三",
+  classroom = "立人楼B411",
+  location = "电子科技大学清水河校区立人楼B区", # 字符串
+  weekday = 5,
+  weeks = [2] + Course.odd_week(3, 13),
+  indexes = [7, 8, 9]
+)
+```
+
+并绑定经纬度坐标信息
 
 _**请注意：** 如果你使用的是 Apple 设备（iPhone、iPad、Apple Watch、Mac），此功能只能用于添加地理位置名称，经纬度功能无效，请参照下一章节配置 Apple Maps 定位信息，这将使你的日历和 Apple Maps 系统地图相关联_
 
@@ -136,7 +152,7 @@ Course(
   classroom = "立人楼B411",
   location = 立人楼B, # 传入 Geo 实例
   weekday = 5,
-  weeks = [1] + Course.odd_week(3, 13),
+  weeks = [2] + Course.odd_week(3, 13),
   indexes = [7, 8, 9]
 )
 ```
@@ -180,7 +196,7 @@ Course(
   classroom = "品学楼B411",
   location = 品学楼地图["品学楼B"], # 对应刚刚的「品学楼B」日历项目
   weekday = 5,
-  weeks = [1] + Course.odd_week(3, 13),
+  weeks = [2] + Course.odd_week(3, 13),
   indexes = [7, 8, 9]
 )
 ```
