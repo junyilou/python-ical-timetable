@@ -1,27 +1,19 @@
 import re
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from hashlib import md5
 from typing import Any
 
 
+@dataclass
 class Course:
-    def __init__(
-        self,
-        name: str,
-        teacher: str,
-        classroom: str,
-        location: Any,
-        weekday: int,
-        weeks: list[int],
-        indexes: list[int],
-    ) -> None:
-        self.name = name
-        self.teacher = teacher
-        self.classroom = classroom
-        self.location = location
-        self.weekday = weekday
-        self.weeks = weeks
-        self.indexes = indexes
+    name: str
+    teacher: str
+    classroom: str
+    location: Any
+    weekday: int
+    weeks: list[int]
+    indexes: list[int]
 
     def title(self) -> str:
         """
@@ -62,8 +54,14 @@ class Course:
         return [i for i in range(start, end + 1) if not i % 2]
 
 
+@dataclass
 class School:
-    headers = [
+    duration: int = 45
+    timetable: list[tuple[int, int]] = field(default_factory=list)
+    start: tuple[int, int, int] = (2023, 9, 1)
+    courses: list[Course] = field(default_factory=list)
+
+    HEADERS = [
         "BEGIN:VCALENDAR",
         "METHOD:PUBLISH",
         "VERSION:2.0",
@@ -72,33 +70,23 @@ class School:
         "CALSCALE:GREGORIAN",
         "BEGIN:VTIMEZONE",
         "TZID:Asia/Shanghai",
-        "END:VTIMEZONE",
-    ]
-    footers = ["END:VCALENDAR"]
+        "END:VTIMEZONE"]
+    FOOTERS = ["END:VCALENDAR"]
 
-    def __init__(
-        self,
-        duration: int = 45,
-        timetable: list[tuple[int, int]] = [],
-        start: tuple[int, int, int] = (2023, 9, 1),
-        courses: list[Course] = [],
-    ) -> None:
-        assert timetable, "请设置每节课的上课时间，以 24 小时制两元素元组方式输入小时、分钟"
-        assert len(start) == 3, "请设置为开学第一周的日期，以三元素元组方式输入年、月、日"
-        assert courses, "请设置你的课表数组"
-        self.duration = duration
-        self.timetable = [[]] + timetable
-        self.start: datetime = datetime(*start)
-        while self.start.weekday():
-            self.start -= timedelta(days=1)
-        self.courses = courses
+    def __post_init__(self) -> None:
+        assert self.timetable, "请设置每节课的上课时间，以 24 小时制两元素元组方式输入小时、分钟"
+        assert len(self.start) >= 3, "请设置为开学第一周的日期，以元素元组方式输入年、月、日"
+        assert self.courses, "请设置你的课表数组，每节课是一个 Course 实例"
+        self.timetable.insert(0, (0, 0))
+        self.start_dt = datetime(*self.start[:3])
+        self.start_dt -= timedelta(days=self.start_dt.weekday())
 
     def time(self, week: int, weekday: int, index: int, plus: bool = False) -> datetime:
         """
         生成详细的日期和时间：
         week: 第几周，weekday: 周几，index: 第几节课，plus: 是否增加课程时间
         """
-        date = self.start + timedelta(weeks=week - 1, days=weekday - 1)
+        date = self.start_dt + timedelta(weeks=week - 1, days=weekday - 1)
         return date.replace(
             hour=self.timetable[index][0], minute=self.timetable[index][1]
         ) + timedelta(minutes=self.duration if plus else 0)
@@ -114,27 +102,27 @@ class School:
             elif isinstance(course.location, Geo):
                 course.location = course.location.result()
             assert isinstance(course.location, list), "课程定位信息类型不正确"
-        items = [
-            i
-            for j in [
-                [
-                    "BEGIN:VEVENT",
-                    f"SUMMARY:{course.title()}",
-                    f"DESCRIPTION:{course.description()}",
-                    f"DTSTART;TZID=Asia/Shanghai:{self.time(week, course.weekday, course.indexes[0]):%Y%m%dT%H%M%S}",
-                    f"DTEND;TZID=Asia/Shanghai:{self.time(week, course.weekday, course.indexes[-1], True):%Y%m%dT%H%M%S}",
-                    f"DTSTAMP:{runtime:%Y%m%dT%H%M%SZ}",
-                    f"UID:{md5(str((course.title, week, course.weekday, course.indexes[0])).encode()).hexdigest()}",
-                    f"URL;VALUE=URI:",
-                    *course.location,
-                    "END:VEVENT",
-                ]
-                for course in self.courses
-                for week in course.weeks
+        coures = [
+            [
+                "BEGIN:VEVENT",
+                f"SUMMARY:{course.title()}",
+                f"DESCRIPTION:{course.description()}",
+                f"DTSTART;TZID=Asia/Shanghai:{
+                    self.time(week, course.weekday, course.indexes[0]):%Y%m%dT%H%M%S}",
+                f"DTEND;TZID=Asia/Shanghai:{
+                    self.time(week, course.weekday, course.indexes[-1], True):%Y%m%dT%H%M%S}",
+                f"DTSTAMP:{runtime:%Y%m%dT%H%M%SZ}",
+                f"UID:{md5(str((course.title, week, course.weekday,
+                               course.indexes[0])).encode()).hexdigest()}",
+                f"URL;VALUE=URI:",
+                *course.location,
+                "END:VEVENT",
             ]
-            for i in j
+            for course in self.courses
+            for week in course.weeks
         ]
-        for line in self.headers + items + self.footers:
+        items = [i for j in coures for i in j]
+        for line in self.HEADERS + items + self.FOOTERS:
             first = True
             while line:
                 texts.append((" " if not first else "") + line[:72])
@@ -143,18 +131,22 @@ class School:
         return "\n".join(texts)
 
 
+@dataclass
 class Geo:
     """
     仅提供坐标和地点名称的地点信息：
     name: 地点名称，lat：纬度，lon：经度
     """
+    name: str
+    lat: float | str
+    lon: float | str
 
-    def __init__(self, name: str, lat: Any, lon: Any) -> None:
-        self.loc = f"LOCATION:{name}"
-        self.geo = f"GEO:{lat};{lon}"
+    @property
+    def geo(self) -> str:
+        return f"GEO:{self.lat};{self.lon}"
 
     def result(self) -> list[str]:
-        return [self.loc, self.geo]
+        return [f"LOCATION:{self.name}", self.geo]
 
 
 class AppleMaps:
@@ -163,11 +155,11 @@ class AppleMaps:
     传入预先准备好的 ics 文件地址，自动分析
     """
 
-    keys = ["SUMMARY", "LOCATION", "X-APPLE-STRUCTURED-LOCATION"]
+    KEYS = ["SUMMARY", "LOCATION", "X-APPLE-STRUCTURED-LOCATION"]
 
     def __init__(self, calendar: str) -> None:
         self.locations: dict[str, dict[str, str]] = {}
-        with open(calendar) as r:
+        with open(calendar, encoding = "utf-8") as r:
             c = r.read()
         for i in re.findall(r"(?<=BEGIN:VEVENT)[\s\S]*?(?=END:VEVENT)", c):
             self.generate(i)
@@ -182,22 +174,24 @@ class AppleMaps:
                 d -= 1
             lines[d] += e.removeprefix(" ")
             lines[i] = ""
-        data = {k: next((i for i in lines if i.startswith(k)), "") for k in self.keys}
+        data = {k: next((i for i in lines if i.startswith(k)), "")
+                for k in self.KEYS}
         if not all(data.values()):
             return
         title = data.pop("SUMMARY").removeprefix("SUMMARY:").strip()
-        geo = re.findall(r"geo:([\d.]+),([\d.]+)", data["X-APPLE-STRUCTURED-LOCATION"])
+        geo = re.findall(r"geo:([\d.]+),([\d.]+)",
+                         data["X-APPLE-STRUCTURED-LOCATION"])
         if geo:
             data["GEO"] = Geo(title, geo[0][0], geo[0][1]).geo
         self.locations[title] = data
 
     def __getitem__(self, key: str) -> list[str]:
         try:
-            assert key in self.locations, f"没有找到 {key!r} 的 Apple Maps 信息"
-        except AssertionError as ae:
+            return list(self.locations[key].values())
+        except KeyError:
+            ke = KeyError(f"没有找到 {key!r} 的 Apple Maps 信息")
             try:
-                ae.add_note(f"已在日历文件中记录的地点有: {', '.join(self.locations)}")
+                ke.add_note(f"已在日历文件中记录的地点有: {', '.join(self.locations)}")
             except AttributeError:
                 pass
-            raise ae
-        return list(self.locations[key].values())
+            raise ke from None
