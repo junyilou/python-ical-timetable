@@ -1,9 +1,30 @@
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from hashlib import md5
 from typing import Any
 
+
+def EvenWeeks(start: int, end: int) -> list[int]:
+    """
+    返回偶数周列表
+    如 even_week(1, 4) -> [2, 4]
+    """
+    return [i for i in range(start, end + 1) if not i % 2]
+
+def OddWeeks(start: int, end: int) -> list[int]:
+    """
+    返回奇数周列表：
+    如 odd_week(1, 4) -> [1, 3]
+    """
+    return [i for i in range(start, end + 1) if i % 2]
+
+def Weeks(start: int, end: int) -> list[int]:
+    """
+    返回周数列表：
+    如 week(1, 3) -> [1, 2, 3]
+    """
+    return list(range(start, end + 1))
 
 @dataclass
 class Course:
@@ -29,37 +50,12 @@ class Course:
         """
         return f"任课教师：{self.teacher}。"
 
-    @staticmethod
-    def week(start: int, end: int) -> list[int]:
-        """
-        返回周数列表：
-        如 week(1, 3) -> [1, 2, 3]
-        """
-        return list(range(start, end + 1))
-
-    @staticmethod
-    def odd_week(start: int, end: int) -> list[int]:
-        """
-        返回奇数周列表：
-        如 odd_week(1, 4) -> [1, 3]
-        """
-        return [i for i in range(start, end + 1) if i % 2]
-
-    @staticmethod
-    def even_week(start: int, end: int) -> list[int]:
-        """
-        返回偶数周列表
-        如 even_week(1, 4) -> [2, 4]
-        """
-        return [i for i in range(start, end + 1) if not i % 2]
-
-
 @dataclass
 class School:
-    duration: int = 45
-    timetable: list[tuple[int, int]] = field(default_factory=list)
-    start: tuple[int, int, int] = (2023, 9, 1)
-    courses: list[Course] = field(default_factory=list)
+    duration: int
+    timetable: list[tuple[int, int]]
+    start: tuple[int, int, int]
+    courses: list[Course]
 
     HEADERS = [
         "BEGIN:VCALENDAR",

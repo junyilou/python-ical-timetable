@@ -42,8 +42,8 @@ iCalendar 是广泛使用的日历数据交换标准，在诸如 Apple 日历、
   * 通过 `AppleMaps` 实例可设置 Apple Maps 定位信息（详见后文）
   * 如果无需设置定位信息，留为空项（空字符串、`None` 等）即可
 * 上课时间（周数、星期、节数）
-  * 通过 `Course.week()` 函数可设置批量周数，如 1-13 周
-  * 通过 `Course.odd_week()` 函数可设置奇数周、`Course.even_week()` 设置偶数周
+  * 通过 `Weeks()` 函数可设置批量周数，如 1-13 周
+  * 通过 `OddWeeks()` 函数可设置奇数周、`EvenWeeks()` 设置偶数周
   * 周数、节数都是数字数组，可简单地通过加法进行拼合
 
 例如：张三老师的信号检测与估计在第一周和 3 到 13 周中的奇数周的星期五第 7、8、9 节在立人楼B411上课
@@ -55,8 +55,8 @@ Course(
   classroom = "立人楼B411",
   location = None,                       # 设置方法详见后文
   weekday = 5,                           # 星期五则为 5，星期日则为 7
-  weeks = [2] + Course.odd_week(3, 13),  # 2, 3, 5, ..., 13 周
-  indexes = [7, 8, 9]                    # 或者 Course.week(7, 9)
+  weeks = [2] + OddWeeks(3, 13),         # 2, 3, 5, ..., 13 周
+  indexes = [7, 8, 9]                    # 或者 Weeks(7, 9)
 )
 ```
 
@@ -129,7 +129,7 @@ Course(
   classroom = "立人楼B411",
   location = "电子科技大学清水河校区立人楼B区",  # 字符串
   weekday = 5,
-  weeks = [2] + Course.odd_week(3, 13),
+  weeks = [2] + OddWeeks(3, 13),
   indexes = [7, 8, 9]
 )
 ```
@@ -152,7 +152,7 @@ Course(
   classroom = "立人楼B411",
   location = 立人楼B,  # 传入 Geo 实例
   weekday = 5,
-  weeks = [2] + Course.odd_week(3, 13),
+  weeks = [2] + OddWeeks(3, 13),
   indexes = [7, 8, 9]
 )
 ```
@@ -196,7 +196,7 @@ Course(
   classroom = "品学楼B411",
   location = 品学楼地图["品学楼B"],  # 对应刚刚的「品学楼B」日历项目
   weekday = 5,
-  weeks = [2] + Course.odd_week(3, 13),
+  weeks = [2] + OddWeeks(3, 13),
   indexes = [7, 8, 9]
 )
 ```

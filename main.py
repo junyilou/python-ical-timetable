@@ -1,4 +1,4 @@
-from data import AppleMaps, Course, Geo, School
+from data import AppleMaps, Course, EvenWeeks, Geo, OddWeeks, School, Weeks
 
 # 定位信息的设置请参考 README.md
 品学楼地图 = AppleMaps("UESTC.ics")
@@ -25,13 +25,13 @@ school = School(
         # 张三老师的「新时代中国特色社会主义理论与实践」会在
         # 第 1 至 9 周和第 11 周的的星期六第 7-8 节在 品学楼B107 教室上课
         Course(
-            name = "新时代中国特色社会主义理论与实践",
-            teacher = "张三",
-            classroom = "品学楼B107",
-            location = 品学楼地图["品学楼B"],     # Apple Maps 实例
-            weekday = 6,
-            weeks = Course.week(1, 9) + [11],  # 数字数组拼合
-            indexes = [7, 8],
+            name="新时代中国特色社会主义理论与实践",
+            teacher="张三",
+            classroom="品学楼B107",
+            location=品学楼地图["品学楼B"],     # Apple Maps 实例
+            weekday=6,
+            weeks=Weeks(1, 9) + [11],        # 数字数组拼合
+            indexes=[7, 8],
         ),
 
         # 李四老师的「雷达与电子对抗系统」会在第 1 至 9 周的星期二第 9-11 节在 立人楼A417 教室上课
@@ -41,8 +41,8 @@ school = School(
             "立人楼A417",
             立人楼A,                            # Geo 实例
             2,
-            Course.week(1, 9),
-            Course.week(9, 11),
+            Weeks(1, 9),
+            Weeks(9, 11),                      # 等价于 [9, 10, 11]
         ),
 
         # 王五老师的「最优化理论与应用」会在第 1 至 13 周
@@ -54,7 +54,7 @@ school = School(
                 "立人楼B417",
                 立人楼B,
                 weekday,
-                Course.week(1, 13),
+                Weeks(1, 13),
                 indexes,
             )
             for weekday, indexes in ((1, [3, 4]), (3, [5, 6]), (5, [9, 10]))
@@ -67,7 +67,7 @@ school = School(
             "品学楼C411",
             "电子科技大学清水河校区品学楼C区",      # 纯字符串地点
             4,
-            Course.odd_week(1, 11),            # 奇数周限定
+            OddWeeks(1, 11),                   # 奇数周限定
             [5, 6],
         )
     ],
