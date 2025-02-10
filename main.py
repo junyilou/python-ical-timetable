@@ -73,5 +73,5 @@ school = School(
     ],
 )
 
-with open("课表.ics", "w") as w:
+with open("课表.ics", "w", encoding = "utf-8") as w:
     w.write(school.generate())
